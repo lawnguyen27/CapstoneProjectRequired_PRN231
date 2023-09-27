@@ -7,7 +7,6 @@ namespace BusinessObjects
     {
         public Semester()
         {
-            GroupProjects = new HashSet<GroupProject>();
             StudentInSemesters = new HashSet<StudentInSemester>();
             Topics = new HashSet<Topic>();
         }
@@ -18,7 +17,6 @@ namespace BusinessObjects
         public DateTime? EndDate { get; set; }
         public bool? Status { get; set; }
 
-        public virtual ICollection<GroupProject> GroupProjects { get; set; }
         public virtual ICollection<StudentInSemester> StudentInSemesters { get; set; }
         public virtual ICollection<Topic> Topics { get; set; }
     }

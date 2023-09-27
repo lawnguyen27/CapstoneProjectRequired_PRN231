@@ -15,6 +15,7 @@ namespace BusinessObjects
         public string Name { get; set; } = null!;
         public bool? IsPrerequisite { get; set; }
         public int? SpecializationId { get; set; }
+        public bool? Status { get; set; }
 
         public virtual Specialization? Specialization { get; set; }
         public virtual ICollection<StudentInSemester> StudentInSemesters { get; set; }

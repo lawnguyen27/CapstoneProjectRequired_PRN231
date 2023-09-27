@@ -17,9 +17,7 @@ namespace BusinessObjects
         public bool? Status { get; set; }
         public int? SemesterId { get; set; }
         public int? SpecializationId { get; set; }
-        public int? GroupId { get; set; }
 
-        public virtual GroupProject? Group { get; set; }
         public virtual Semester? Semester { get; set; }
         public virtual Specialization? Specialization { get; set; }
         public virtual ICollection<GroupProject> GroupProjects { get; set; }
