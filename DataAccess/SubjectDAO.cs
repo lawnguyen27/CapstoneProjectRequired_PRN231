@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,13 +29,23 @@ namespace DataAccess
             }
         }
 
-        public IEnumerable<Subject> GetSubjectIsPrerequisite(int id)
+        public IEnumerable<SubjectResponse> GetSubjectIsPrerequisite(int id)
         {
-            var subjects = new List<Subject>();
+            var subjects = new List<SubjectResponse>();
             try
             {
                 using var context = new CPRContext();
-                subjects = context.Subjects.Where(c => c.SpecializationId == id).Where(c => c.IsPrerequisite.Equals(true)).ToList();
+                subjects = context.Subjects.Where(s => s.SpecializationId == id).
+                    Where(s => s.IsPrerequisite.Equals(true)).Select( a => new SubjectResponse
+                {
+                        Id = a.Id,
+                        Code = a.Code,
+                        Name = a.Name,
+                        IsPrerequisite = a.IsPrerequisite,
+                        SpecializationId = a.SpecializationId,
+                        Status = a.Status,
+                }).ToList();
+                //subjects = context.Subjects.Where(c => c.SpecializationId == id).Where(c => c.IsPrerequisite.Equals(true)).ToList();
             }
             catch (Exception ex)
             {
@@ -42,13 +54,21 @@ namespace DataAccess
             return subjects;
         }
 
-        public IEnumerable<Subject> GetSubjectBySpecializationId(int id)
+        public IEnumerable<SubjectResponse> GetSubjectBySpecializationId(int id)
         {
-            var subjects = new List<Subject>();
+            var subjects = new List<SubjectResponse>();
             try
             {
                 using var context = new CPRContext();
-                subjects = context.Subjects.Where(c => c.SpecializationId == id).ToList();
+                subjects = context.Subjects.Where(c => c.SpecializationId == id).Select(s => new SubjectResponse
+                {
+                    Id= s.Id,
+                    Code = s.Code,
+                    Name = s.Name,
+                    IsPrerequisite = s.IsPrerequisite,
+                    SpecializationId = s.SpecializationId,
+                    Status = s.Status,
+                }).ToList();
             }
             catch (Exception ex)
             {
@@ -72,38 +92,37 @@ namespace DataAccess
             return subject;
         }
 
-        public int GetSubjectIdByCode(string? code)
+        public Subject GetSubjectByCode(string? code)
         {
-            int id;
             Subject subject = null;
             try
             {
                 using var context = new CPRContext();
                 subject = context.Subjects.SingleOrDefault(m => m.Code.Equals(code));
-                if (subject != null)
-                {
-                    id = subject.Id;
-                }
-                else id = 0;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return id;
+            return subject;
         }
 
-        public void Create(Subject s)
+        public void Create(SubjectRequest s)
         {
             try
             {
-                Subject _s = new Subject();
-                _s.Id = GetSubjectIdByCode(s.Code);
-                if (_s.Id == 0)
+                var _s = new Subject();
+                _s = GetSubjectByCode(s.Code);
+                using var context = new CPRContext();
+                if (_s == null)
                 {
-                    using var context = new CPRContext();
-                    context.Subjects.Add(s);
-                    context.SaveChanges();
+                    var subject = new Subject();
+                    subject.Code = s.Code;
+                    subject.Name = s.Name;
+                    subject.IsPrerequisite = s.IsPrerequisite;
+                    subject.SpecializationId = s.SpecializationId;
+                    subject.Status = true;
+                    context.Subjects.Add(subject);
                 }
                 else
                 {
@@ -116,7 +135,7 @@ namespace DataAccess
             }
         }
 
-        public void Update(int Id)
+        public void UpdateStatus(int Id)
         {
             try
             {
@@ -131,7 +150,7 @@ namespace DataAccess
                 }
                 else
                 {
-                    throw new Exception("The semester does not already exist.");
+                    throw new Exception("The Subject does not already exist.");
                 }
             }
             catch (Exception ex)

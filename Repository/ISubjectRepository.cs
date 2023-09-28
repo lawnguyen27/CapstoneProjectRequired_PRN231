@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,10 @@ namespace Repository
 {
     public interface ISubjectRepository
     {
-        void Update(int Id);
-        void Create(Subject s);
+        void UpdateStatus(int Id);
+        void Create(SubjectRequest s);
         Subject GetSubjectByID(int? Id);
-        IEnumerable<Subject> GetSubjectIsPrerequisite(int id);
-        IEnumerable<Subject> GetSubjectBySpecializationId(int id);
+        IEnumerable<SubjectResponse> GetSubjectBySpecializationId(int id);
+        IEnumerable<SubjectResponse> GetSubjectIsPrerequisite(int id);
     }
 }

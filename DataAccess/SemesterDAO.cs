@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +28,20 @@ namespace DataAccess
             }
         }
 
-        public IEnumerable<Semester> GetSemesters()
+        public IEnumerable<SemesterResponse> GetSemesters()
         {
-            var semesters = new List<Semester>();
+            var semesters = new List<SemesterResponse>();
             try
             {
                 using var context = new CPRContext();
-                semesters = context.Semesters.ToList();
+                semesters = context.Semesters.Select(a => new SemesterResponse
+                {
+                    Id = a.Id,
+                    Code = a.Code,
+                    StartDate = a.StartDate,
+                    EndDate = a.EndDate,
+                    Status = true,
+                }).ToList();
             }
             catch (Exception ex)
             {
@@ -77,16 +86,20 @@ namespace DataAccess
             return id;
         }
 
-        public void Create(Semester semester)
+        public void Create(SemesterRequest semester)
         {
             try
             {
                 Semester _semester = new Semester();
                 _semester.Id = GetSemesterIdByCode(semester.Code);
+                using var context = new CPRContext();
                 if (_semester.Id == 0)
                 {
-                    using var context = new CPRContext();
-                    context.Semesters.Add(semester);
+                    _semester.Code = semester.Code;
+                    _semester.StartDate = semester.StartDate;
+                    _semester.EndDate = semester.EndDate;
+                    _semester.Status = true;
+                    context.Semesters.Add(_semester);
                     context.SaveChanges();
                 }
                 else

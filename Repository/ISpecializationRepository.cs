@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,8 @@ namespace Repository
     public interface ISpecializationRepository
     {
         void UpdateStatus(int id);
-        void Create(Specialization s);
+        void Create(SpecializationRequest s);
         Specialization GetSpecializationByID(int? ID);
-        IEnumerable<Specialization> GetSpecializations();
+        IEnumerable<SpecializationResponse> GetSpecializations();
     }
 }
