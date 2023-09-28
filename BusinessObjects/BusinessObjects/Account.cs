@@ -23,6 +23,7 @@ namespace BusinessObjects
         public int? RoleId { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? Avatar { get; set; }
+        public bool? Status { get; set; }
 
         public virtual Role? Role { get; set; }
         public virtual ICollection<StudentInGroup> StudentInGroups { get; set; }

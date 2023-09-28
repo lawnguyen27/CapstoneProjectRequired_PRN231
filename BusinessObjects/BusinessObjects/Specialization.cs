@@ -15,6 +15,7 @@ namespace BusinessObjects
         public string Code { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
+        public bool? Status { get; set; }
 
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<Topic> Topics { get; set; }

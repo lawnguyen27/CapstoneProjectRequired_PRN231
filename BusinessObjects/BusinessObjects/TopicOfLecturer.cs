@@ -9,6 +9,7 @@ namespace BusinessObjects
         public bool IsSuperLecturer { get; set; }
         public int? LecturerId { get; set; }
         public int? TopicId { get; set; }
+        public bool? Status { get; set; }
 
         public virtual Account? Lecturer { get; set; }
         public virtual Topic? Topic { get; set; }
