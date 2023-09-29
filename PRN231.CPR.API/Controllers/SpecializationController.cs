@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 
@@ -20,7 +22,7 @@ namespace PRN231.CPR.API.Controllers
 
         // GET: api/<SpecializationController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Specialization>>> Get()
+        public async Task<ActionResult<IEnumerable<SpecializationResponse>>> Get()
         {
             var ss = specializationRepository.GetSpecializations();
             if (ss == null)
@@ -39,7 +41,7 @@ namespace PRN231.CPR.API.Controllers
 
         // POST api/<SpecializationController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Specialization value)
+        public async Task<ActionResult> Post([FromBody] SpecializationRequest value)
         {
             if (value != null)
             {

@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +28,20 @@ namespace DataAccess
             }
         }
 
-        public IEnumerable<Specialization> GetSpecializations()
+        public IEnumerable<SpecializationResponse> GetSpecializations()
         {
-            var specializations = new List<Specialization>();
+            var specializations = new List<SpecializationResponse>();
             try
             {
                 using var context = new CPRContext();
-                specializations = context.Specializations.ToList();
+                specializations = context.Specializations.Select(s => new SpecializationResponse
+                {
+                    Id = s.Id,
+                    Code = s.Code,
+                    Name = s.Name,
+                    Description = s.Description,
+                    Status = s.Status,
+                }).ToList();
             }
             catch (Exception ex)
             {
@@ -56,16 +65,35 @@ namespace DataAccess
             return s;
         }
 
-        public void Create(Specialization s)
+        public Specialization GetSpecializationByCode(string? code)
+        {
+            Specialization s = null;
+            try
+            {
+                using var context = new CPRContext();
+                s = context.Specializations.SingleOrDefault(m => m.Code.Equals(code));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return s;
+        }
+
+        public void Create(SpecializationRequest s)
         {
             try
             {
-                Specialization _s = GetSpecializationByID(s.Id);
+                Specialization _s = GetSpecializationByCode(s.Code);
+                using var context = new CPRContext();
                 if (_s== null)
                 {
-                    using var context = new CPRContext();
-                    context.Specializations.Add(s);
-                    context.SaveChanges();
+                    var sp = new Specialization();
+                    sp.Code = s.Code;
+                    sp.Name = s.Name;
+                    sp.Description = s.Description;
+                    sp.Status = true;
+                    context.Specializations.Add(sp);
                 }
                 else
                 {

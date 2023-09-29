@@ -11,7 +11,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
 builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-builder.Services.AddScoped<ITopicViewRepository, TopicViewRepository>();
+builder.Services.AddScoped<ITopicRepository, TopicRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 var app = builder.Build();
 

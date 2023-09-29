@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 
@@ -21,7 +23,7 @@ namespace PRN231.CPR.API.Controllers
         // GET: api/<SubjectController>/5
         [Route("api/Subject/Prerequisite/{id}")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Subject>>> GetSubjectIsPrerequisite(int id)
+        public async Task<ActionResult<IEnumerable<SubjectResponse>>> GetSubjectIsPrerequisite(int id)
         {
             var ss = subjectRepository.GetSubjectIsPrerequisite((int)id);
             if (ss == null)
@@ -33,7 +35,7 @@ namespace PRN231.CPR.API.Controllers
         // GET api/<SubjectController>/5
         [Route("api/Subject/Specialization/{id}")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Subject>>> GetSubjects(int id)
+        public async Task<ActionResult<IEnumerable<SubjectResponse>>> GetSubjects(int id)
         {
             var ss = subjectRepository.GetSubjectBySpecializationId(id);
             if (ss == null)
@@ -44,7 +46,7 @@ namespace PRN231.CPR.API.Controllers
         // POST api/<SubjectController>
         [Route("api/Subject")]
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Subject value)
+        public async Task<ActionResult> Post([FromBody] SubjectRequest value)
         {
             if (value != null)
             {
@@ -60,7 +62,7 @@ namespace PRN231.CPR.API.Controllers
         public async Task<ActionResult> Put(int id)
         {
             if (id == 0) return NotFound();
-            subjectRepository.Update(id);
+            subjectRepository.UpdateStatus(id);
             return Ok();
         }
 

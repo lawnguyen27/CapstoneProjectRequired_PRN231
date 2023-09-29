@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using DataAccess;
 using System;
 using System.Collections.Generic;
@@ -10,12 +12,13 @@ namespace Repository
 {
     public class SemesterRepository : ISemesterRepository
     {
-        public void Create(Semester semester) => SemesterDAO.Instance.Create(semester);
+
+        public void Create(SemesterRequest semester) => SemesterDAO.Instance.Create(semester);
 
         public Semester GetSemesterByID(int? Id) => SemesterDAO.Instance.GetSemesterByID(Id);
 
-        public IEnumerable<Semester> GetSemesters() => SemesterDAO.Instance.GetSemesters();
-
         public void Update(int Id) => SemesterDAO.Instance.Update(Id);
+
+        IEnumerable<SemesterResponse> ISemesterRepository.GetSemesters() => SemesterDAO.Instance.GetSemesters();
     }
 }

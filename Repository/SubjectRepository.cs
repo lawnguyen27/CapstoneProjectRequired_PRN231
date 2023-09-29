@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using DataAccess;
 using System;
 using System.Collections.Generic;
@@ -10,14 +12,14 @@ namespace Repository
 {
     public class SubjectRepository : ISubjectRepository
     {
-        public void Create(Subject s) => SubjectDAO.Instance.Create(s);
+        public void Create(SubjectRequest s) => SubjectDAO.Instance.Create(s);
 
         public Subject GetSubjectByID(int? Id) => SubjectDAO.Instance.GetSubjectByID(Id);
 
-        public IEnumerable<Subject> GetSubjectBySpecializationId(int id) => SubjectDAO.Instance.GetSubjectBySpecializationId((int)id);  
+        public IEnumerable<SubjectResponse> GetSubjectBySpecializationId(int id) => SubjectDAO.Instance.GetSubjectBySpecializationId(id);
 
-        public IEnumerable<Subject> GetSubjectIsPrerequisite(int id) => SubjectDAO.Instance.GetSubjectIsPrerequisite((int) id);
+        public IEnumerable<SubjectResponse> GetSubjectIsPrerequisite(int id) => SubjectDAO.Instance.GetSubjectIsPrerequisite(id);
 
-        public void Update(int Id) => SubjectDAO.Instance.Update(Id);
+        public void UpdateStatus(int Id) => SubjectDAO.Instance.UpdateStatus(Id);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using DataAccess;
 using System;
 using System.Collections.Generic;
@@ -10,12 +12,13 @@ namespace Repository
 {
     public class SpecializationRepository : ISpecializationRepository
     {
-        public void Create(Specialization s) => SpecializationDAO.Instance.Create(s);
+
+        public void Create(SpecializationRequest s) => SpecializationDAO.Instance.Create(s);
 
         public Specialization GetSpecializationByID(int? ID) => SpecializationDAO.Instance.GetSpecializationByID(ID);
 
-        public IEnumerable<Specialization> GetSpecializations() => SpecializationDAO.Instance.GetSpecializations();
-
         public void UpdateStatus(int id) => SpecializationDAO.Instance.UpdateStatus(id);
+
+        IEnumerable<SpecializationResponse> ISpecializationRepository.GetSpecializations() => SpecializationDAO.Instance.GetSpecializations();
     }
 }

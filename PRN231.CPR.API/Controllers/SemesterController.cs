@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 
@@ -19,7 +21,7 @@ namespace PRN231.CPR.API.Controllers
 
         // GET: api/<SemesterController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Semester>>> Get()
+        public async Task<ActionResult<IEnumerable<SemesterResponse>>> Get()
         {
             var ss = semesterRepository.GetSemesters();
             if (ss == null)
@@ -38,7 +40,7 @@ namespace PRN231.CPR.API.Controllers
 
         // POST api/<SemesterController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Semester value)
+        public async Task<ActionResult> Post([FromBody] SemesterRequest value)
         {
             if (value != null)
             {

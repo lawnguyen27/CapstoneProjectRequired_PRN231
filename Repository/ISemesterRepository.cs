@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTOs.Request;
+using BusinessObjects.DTOs.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,8 @@ namespace Repository
     public interface ISemesterRepository
     {
         void Update(int Id);
-        void Create(Semester semester);
+        void Create(SemesterRequest semester);
         Semester GetSemesterByID(int? Id);
-        IEnumerable<Semester> GetSemesters();
+        IEnumerable<SemesterResponse> GetSemesters();
     }
 }
